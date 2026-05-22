@@ -1,5 +1,7 @@
 # SafeField AI - Metaindustria
 
+Repositorio GitHub: https://github.com/CaioTSFaraleski/Sprint-1-4-2026.git
+
 ## Integrantes
 
 | Nome | RM |

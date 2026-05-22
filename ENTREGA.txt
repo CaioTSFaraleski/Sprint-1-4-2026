@@ -5,4 +5,4 @@ Rodrigo Caruzzo Benevides - RM 554665
 Eduardo do Nascimento Souza - RM 558819
 
 Link do repositorio GitHub:
-INSERIR_LINK_DO_REPOSITORIO_AQUI
+https://github.com/CaioTSFaraleski/Sprint-1-4-2026.git
