@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+
+# Generated files
+*.log
+*.tmp

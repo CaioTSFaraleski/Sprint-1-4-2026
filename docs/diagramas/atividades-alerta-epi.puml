@@ -1,0 +1,59 @@
+@startuml
+title Fluxo Critico - Deteccao de EPI e Emissao de Alerta
+
+start
+
+partition "Sistema de Visao/Sensores" {
+  :Capturar imagem ou evento de campo;
+  :Identificar operador, area e EPIs detectados;
+  :Enviar deteccao para o SafeField AI;
+}
+
+partition "SafeField AI" {
+  :Receber deteccao;
+  :Carregar regras de seguranca da area;
+  :Comparar EPIs detectados com EPIs obrigatorios;
+
+  if (Existe EPI obrigatorio ausente?) then (sim)
+    :Calcular severidade do risco;
+    :Registrar ocorrencia de risco;
+    :Anexar evidencia da deteccao;
+    :Gerar alerta em tempo real;
+  else (nao)
+    :Registrar conformidade operacional;
+    stop
+  endif
+}
+
+partition "Operador" {
+  :Receber alerta com EPI ausente;
+  :Regularizar uso do EPI;
+  :Confirmar regularizacao;
+}
+
+partition "Supervisor de Seguranca" {
+  :Receber alerta da ocorrencia;
+  :Avaliar severidade e evidencia;
+
+  if (Risco critico ou reincidente?) then (sim)
+    :Escalar ocorrencia;
+    :Acionar procedimento de seguranca;
+  else (nao)
+    :Acompanhar correcao em campo;
+  endif
+
+  :Validar regularizacao;
+}
+
+partition "SafeField AI" {
+  if (Regularizacao validada?) then (sim)
+    :Encerrar ocorrencia;
+    :Atualizar indicadores de conformidade;
+  else (nao)
+    :Manter alerta ativo;
+    :Notificar operador e supervisor novamente;
+  endif
+}
+
+stop
+@enduml

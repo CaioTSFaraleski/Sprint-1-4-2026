@@ -1,0 +1,54 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Operador de\nChao de Fabrica" as Operador
+actor "Supervisor de\nSeguranca" as Supervisor
+actor "Gestor\nIndustrial" as Gestor
+actor "Sistema de Visao\nComputacional/Sensores" as Sensor
+
+rectangle "SafeField AI - Metaindustria" {
+  usecase "Autenticar usuario" as UC01
+  usecase "Consultar orientacoes\nde seguranca" as UC02
+  usecase "Monitorar uso\nde EPI" as UC03
+  usecase "Enviar deteccao\nde campo" as UC04
+  usecase "Identificar nao\nconformidade" as UC05
+  usecase "Registrar ocorrencia\nde risco" as UC06
+  usecase "Emitir alerta\nem tempo real" as UC07
+  usecase "Registrar\nregularizacao" as UC08
+  usecase "Validar ocorrencia" as UC09
+  usecase "Escalar risco\ncritico" as UC10
+  usecase "Encerrar ocorrencia" as UC11
+  usecase "Consultar dashboard\noperacional" as UC12
+  usecase "Gerar relatorio\nde conformidade" as UC13
+  usecase "Configurar regras\nde seguranca" as UC14
+  usecase "Cadastrar areas,\nEPIs e usuarios" as UC15
+}
+
+Operador --> UC01
+Operador --> UC02
+Operador --> UC08
+
+Supervisor --> UC01
+Supervisor --> UC09
+Supervisor --> UC10
+Supervisor --> UC11
+Supervisor --> UC12
+Supervisor --> UC14
+
+Gestor --> UC01
+Gestor --> UC12
+Gestor --> UC13
+Gestor --> UC15
+
+Sensor --> UC04
+UC04 --> UC03
+
+UC03 .> UC05 : <<include>>
+UC05 .> UC06 : <<include>>
+UC06 .> UC07 : <<include>>
+UC09 .> UC11 : <<include>>
+UC10 .> UC07 : <<extend>>
+UC13 .> UC12 : <<include>>
+
+@enduml

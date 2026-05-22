@@ -1,0 +1,128 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class Usuario {
+  - id: UUID
+  - nome: String
+  - rmOuMatricula: String
+  - email: String
+  - status: StatusUsuario
+  + autenticar(): boolean
+  + atualizarPerfil(): void
+}
+
+class Operador {
+  - turno: String
+  - funcao: String
+  + confirmarRegularizacao(ocorrencia: OcorrenciaRisco): void
+  + consultarOrientacoes(): List<RegraSeguranca>
+}
+
+class SupervisorSeguranca {
+  - areaResponsavel: String
+  + validarOcorrencia(ocorrencia: OcorrenciaRisco): void
+  + escalarRisco(ocorrencia: OcorrenciaRisco): void
+  + encerrarOcorrencia(ocorrencia: OcorrenciaRisco): void
+}
+
+class GestorIndustrial {
+  - unidadeIndustrial: String
+  + consultarDashboard(): Dashboard
+  + gerarRelatorio(periodo: Periodo): RelatorioConformidade
+}
+
+class AreaIndustrial {
+  - id: UUID
+  - nome: String
+  - nivelRisco: NivelRisco
+  - ativa: boolean
+  + obterRegrasAtivas(): List<RegraSeguranca>
+}
+
+class EPI {
+  - id: UUID
+  - nome: String
+  - tipo: TipoEPI
+  - certificadoValido: boolean
+  + validarCertificacao(): boolean
+}
+
+class RegraSeguranca {
+  - id: UUID
+  - descricao: String
+  - obrigatoria: boolean
+  - severidadePadrao: NivelRisco
+  + avaliar(deteccao: DeteccaoEPI): boolean
+}
+
+class DeteccaoEPI {
+  - id: UUID
+  - dataHora: LocalDateTime
+  - confianca: decimal
+  - evidenciaUrl: String
+  + possuiEPIObrigatorio(epi: EPI): boolean
+}
+
+class OcorrenciaRisco {
+  - id: UUID
+  - dataAbertura: LocalDateTime
+  - dataEncerramento: LocalDateTime
+  - status: StatusOcorrencia
+  - severidade: NivelRisco
+  - descricao: String
+  + abrir(): void
+  + registrarAcao(acao: AcaoOcorrencia): void
+  + encerrar(): void
+}
+
+class Alerta {
+  - id: UUID
+  - mensagem: String
+  - canal: CanalAlerta
+  - dataEnvio: LocalDateTime
+  - status: StatusAlerta
+  + enviar(): void
+  + marcarComoLido(): void
+}
+
+class AcaoOcorrencia {
+  - id: UUID
+  - dataHora: LocalDateTime
+  - tipo: TipoAcao
+  - observacao: String
+  + registrar(): void
+}
+
+class RelatorioConformidade {
+  - id: UUID
+  - periodoInicio: LocalDate
+  - periodoFim: LocalDate
+  - totalOcorrencias: int
+  - indiceConformidade: decimal
+  + calcularIndicadores(): void
+  + exportarPDF(): File
+}
+
+class Dashboard {
+  - alertasAtivos: int
+  - tempoMedioRegularizacao: Duration
+  - taxaReincidencia: decimal
+  + atualizarIndicadores(): void
+}
+
+Usuario <|-- Operador
+Usuario <|-- SupervisorSeguranca
+Usuario <|-- GestorIndustrial
+
+AreaIndustrial "1" o-- "0..*" RegraSeguranca
+RegraSeguranca "1" --> "1" EPI
+AreaIndustrial "1" --> "0..*" DeteccaoEPI
+Operador "1" --> "0..*" DeteccaoEPI
+DeteccaoEPI "1" --> "0..1" OcorrenciaRisco
+OcorrenciaRisco "1" *-- "1..*" Alerta
+OcorrenciaRisco "1" *-- "0..*" AcaoOcorrencia
+SupervisorSeguranca "1" --> "0..*" OcorrenciaRisco
+GestorIndustrial "1" --> "0..*" RelatorioConformidade
+RelatorioConformidade "1" --> "1" Dashboard
+
+@enduml
