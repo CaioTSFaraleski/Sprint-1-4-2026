@@ -6,3 +6,6 @@ Eduardo do Nascimento Souza - RM 558819
 
 Link do repositorio GitHub:
 https://github.com/CaioTSFaraleski/Sprint-1-4-2026.git
+
+Link do prototipo Figma - Sprint 2:
+https://www.figma.com/design/d6wRQPPhz9r50kVu5zJFOe/SafeField-AI--Metaind%C3%BAstria-Dashboard?node-id=0-1&t=gfM8x4VZIW0N3Z67-1

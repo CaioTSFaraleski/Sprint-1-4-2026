@@ -80,6 +80,12 @@ Quando uma não conformidade é detectada, o sistema registra o evento, calcula 
 
 O levantamento formal de requisitos está disponível em [docs/requisitos.md](docs/requisitos.md).
 
+O refinamento do prototipo navegavel da Sprint 2 esta documentado em [docs/prototipo-sprint-2.md](docs/prototipo-sprint-2.md).
+
+Arquivo Figma do prototipo:
+
+- https://www.figma.com/design/d6wRQPPhz9r50kVu5zJFOe/SafeField-AI--Metaind%C3%BAstria-Dashboard?node-id=0-1&t=gfM8x4VZIW0N3Z67-1
+
 Diagramas UML:
 
 - [Diagrama de Casos de Uso](docs/diagramas/casos-de-uso.puml)
