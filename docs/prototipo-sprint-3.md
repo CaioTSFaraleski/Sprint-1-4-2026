@@ -1,6 +1,6 @@
 # Evolução do Protótipo - Sprint 3
 
-Arquivo Figma (mesmo link, versão evoluída):
+Figma:
 https://www.figma.com/design/d6wRQPPhz9r50kVu5zJFOe/SafeField-AI--Metaind%C3%BAstria-Dashboard?node-id=0-1&t=gfM8x4VZIW0N3Z67-1
 
 ## Objetivo
