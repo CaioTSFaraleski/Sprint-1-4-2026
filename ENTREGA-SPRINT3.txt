@@ -1,0 +1,14 @@
+Pedro Alvarez Certo - RM 554603
+Caio Tadeu Da Silva Faraleski - RM 558795
+Gustavo Demeis Peres - RM 555143
+Rodrigo Caruzzo Benevides - RM 554665
+Eduardo do Nascimento Souza - RM 558819
+
+Link do repositorio GitHub:
+https://github.com/CaioTSFaraleski/Sprint-1-4-2026.git
+
+Link do board Trello (Sprint 3 - Scrum):
+https://trello.com/b/LvmH9MTx/safefield-ai-metaindustria-sprint-3-scrum
+
+Link do prototipo atualizado no Figma:
+https://www.figma.com/design/d6wRQPPhz9r50kVu5zJFOe/SafeField-AI--Metaindustria-Dashboard?node-id=0-1&t=gfM8x4VZIW0N3Z67-1
