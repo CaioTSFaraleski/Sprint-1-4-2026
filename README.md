@@ -92,6 +92,16 @@ Diagramas UML:
 - [Diagrama de Atividades](docs/diagramas/atividades-alerta-epi.puml)
 - [Diagrama de Classes](docs/diagramas/classes.puml)
 
+## Sprint 3 — Evolução do Protótipo e Gestão Ágil com Scrum
+
+A Sprint 3 evolui o protótipo navegável da Sprint 2 e organiza o trabalho do grupo com Scrum, usando o Trello para gestão visual.
+
+- **Protótipo evoluído (mesmo link do Figma):** [docs/prototipo-sprint-3.md](docs/prototipo-sprint-3.md) descreve as 2 novas telas — *Configuração de Áreas Industriais e Regras de Segurança* (RF02, RF03, RF04) e *Trilha de Auditoria de Eventos Críticos* (RF15) — e a justificativa de cada mudança em relação à Sprint 2.
+- **Board Scrum no Trello:** https://trello.com/b/LvmH9MTx/safefield-ai-metaind%C3%BAstria-sprint-3-scrum — colunas Product Backlog, Sprint Backlog, Em andamento, Em revisão e Concluído.
+- **Artefatos Scrum (Product Backlog priorizado, Sprint Backlog da Sprint 3 e Definition of Done):** [docs/scrum-sprint-3.md](docs/scrum-sprint-3.md)
+- **Cerimônias Scrum (ata de Planning, Dailies e ata de Review):** [docs/cerimonias-scrum-sprint-3.md](docs/cerimonias-scrum-sprint-3.md)
+- **Arquitetura técnica refinada:** [docs/arquitetura-sprint-3.md](docs/arquitetura-sprint-3.md)
+
 ## Coerencia entre os Diagramas
 
 O caso de uso central "Monitorar uso de EPI" inclui a identificação automática de não conformidade, o registro da ocorrência e a emissão de alerta. O diagrama de atividades detalha esse fluxo crítico, desde a captura do evento pelo sistema de visão computacional até a regularização e encerramento do alerta pelo supervisor.
@@ -106,6 +116,11 @@ metaindustria-safefield/
 ├── ENTREGA.txt
 └── docs/
     ├── requisitos.md
+    ├── prototipo-sprint-2.md
+    ├── prototipo-sprint-3.md
+    ├── scrum-sprint-3.md
+    ├── cerimonias-scrum-sprint-3.md
+    ├── arquitetura-sprint-3.md
     └── diagramas/
         ├── atividades-alerta-epi.puml
         ├── casos-de-uso.puml
