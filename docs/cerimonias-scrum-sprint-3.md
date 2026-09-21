@@ -2,7 +2,7 @@
 
 Board Trello: https://trello.com/b/LvmH9MTx/safefield-ai-metaind%C3%BAstria-sprint-3-scrum
 
-Cerimônias realizadas de forma assíncrona (registro em texto), conforme previsto no enunciado da Sprint 3.
+Cerimônias realizadas de forma assíncrona.
 
 ## Ata de Planning
 
