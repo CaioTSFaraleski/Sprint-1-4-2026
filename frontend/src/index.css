@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-slate-100 text-slate-900 antialiased;
+  }
+}
+
+@layer components {
+  .cartao {
+    @apply rounded-2xl bg-white shadow-cartao ring-1 ring-slate-200/70;
+  }
+  .rotulo {
+    @apply text-xs font-semibold uppercase tracking-wide text-slate-500;
+  }
+  .campo {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400
+      focus:border-marca-500 focus:outline-none focus:ring-2 focus:ring-marca-500/30 disabled:bg-slate-100;
+  }
+  .tabela th {
+    @apply whitespace-nowrap px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500;
+  }
+  .tabela td {
+    @apply px-4 py-3 align-middle text-sm;
+  }
+  .tabela tbody tr {
+    @apply border-t border-slate-100;
+  }
+}
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.animar-entrada { animation: entrar 0.25s ease-out both; }
+
+@keyframes destaque {
+  0% { background-color: rgb(254 243 199); }
+  100% { background-color: transparent; }
+}
+.destaque-novo { animation: destaque 2.5s ease-out; }
+
+@keyframes pulso {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.pulsar { animation: pulso 1.6s ease-in-out infinite; }
+
+@media print {
+  .nao-imprimir { display: none !important; }
+  body { background: white; }
+  .cartao { box-shadow: none; }
+}

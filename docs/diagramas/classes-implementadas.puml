@@ -1,0 +1,113 @@
+@startuml
+!pragma layout smetana
+title Sprint 4 - Modelo de domínio implementado (backend/src/main/java/br/com/safefield/domain)
+skinparam classAttributeIconSize 0
+hide empty methods
+
+abstract class Usuario <<Entity>> {
+  id: Long
+  nome: String
+  matricula: String
+  email: String
+  senhaHash: String
+  ativo: boolean
+  {abstract} getPerfil(): Perfil
+}
+class Operador <<Entity>> {
+  turno: Turno
+  funcao: String
+}
+class SupervisorSeguranca <<Entity>>
+class GestorIndustrial <<Entity>> {
+  unidadeIndustrial: String
+}
+class AreaIndustrial <<Entity>> {
+  nome: String
+  setor: String
+  nivelRisco: NivelRisco
+  turnos: String
+  ativa: boolean
+  obterRegrasAtivas(turno): List<RegraSeguranca>
+}
+class EPI <<Entity>> {
+  nome: String
+  tipo: TipoEPI
+  codigoCA: String
+  validadeCA: LocalDate
+  validarCertificacao(hoje): boolean
+}
+class RegraSeguranca <<Entity>> {
+  descricao: String
+  obrigatoria: boolean
+  severidadePadrao: NivelRisco
+  turno: Turno
+  atividade: String
+  avaliar(detectados): boolean
+}
+class EntregaEPI <<Entity>> {
+  dataEntrega: LocalDate
+  dataValidade: LocalDate
+  status: StatusEntrega
+}
+class DeteccaoEPI <<Entity>> {
+  dataHora: LocalDateTime
+  episDetectados: Set<TipoEPI>
+  confianca: BigDecimal
+  evidenciaUrl: String
+  origem: OrigemDeteccao
+  dispositivo: String
+  conforme: boolean
+}
+class OcorrenciaRisco <<Entity>> {
+  codigo: String
+  severidade: NivelRisco
+  status: StatusOcorrencia
+  reincidente: boolean
+  dataAbertura / dataRegularizacao / dataEncerramento
+  registrarAcao(...)
+  emitirAlerta(...)
+}
+class AcaoOcorrencia <<Entity>> {
+  dataHora: LocalDateTime
+  tipo: TipoAcao
+  observacao: String
+}
+class Alerta <<Entity>> {
+  canal: CanalAlerta
+  mensagem: String
+  dataEnvio: LocalDateTime
+  status: StatusAlerta
+  marcarComoLido()
+}
+class EventoAuditoria <<Entity, imutável>> {
+  dataHora: LocalDateTime
+  tipo: TipoEventoAuditoria
+  autorNome / autorPerfil
+  areaNome / ocorrenciaCodigo
+  descricao: String
+}
+
+Usuario <|-- Operador
+Usuario <|-- SupervisorSeguranca
+Usuario <|-- GestorIndustrial
+Operador "0..*" --> "1" AreaIndustrial : trabalha em
+AreaIndustrial "0..*" --> "0..1" SupervisorSeguranca : supervisionada por
+AreaIndustrial "1" *-- "0..*" RegraSeguranca
+RegraSeguranca "0..*" --> "1" EPI
+Operador "1" --> "0..*" EntregaEPI
+EntregaEPI "0..*" --> "1" EPI
+DeteccaoEPI "0..*" --> "1" Operador
+DeteccaoEPI "0..*" --> "1" AreaIndustrial
+DeteccaoEPI "1" --> "0..1" OcorrenciaRisco
+OcorrenciaRisco "0..*" --> "1..*" EPI : ausentes
+OcorrenciaRisco "1" *-- "1..*" AcaoOcorrencia
+OcorrenciaRisco "1" *-- "1..*" Alerta
+Alerta "0..*" --> "1" Usuario : destinatário
+EventoAuditoria ..> OcorrenciaRisco : registra (retrato)
+
+note bottom of OcorrenciaRisco
+  RelatorioConformidade e Dashboard do diagrama da Sprint 1
+  são calculados sob demanda (RelatorioService / DashboardService),
+  sem tabela própria.
+end note
+@enduml

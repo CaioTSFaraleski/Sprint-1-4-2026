@@ -1,0 +1,16 @@
+# Perfil usado no Docker Compose: PostgreSQL no lugar do H2 em memória.
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/safefield}
+    username: ${SPRING_DATASOURCE_USERNAME:safefield}
+    password: ${SPRING_DATASOURCE_PASSWORD:safefield}
+  jpa:
+    hibernate:
+      # o banco é recriado a cada subida para que o ambiente de avaliação
+      # sempre comece com os mesmos dados de demonstração
+      ddl-auto: ${SPRING_JPA_DDL_AUTO:create}
+
+logging:
+  level:
+    # avisos inofensivos ao recriar as tabelas ("relation ... does not exist, skipping")
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: ERROR

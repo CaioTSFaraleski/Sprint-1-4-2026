@@ -1,0 +1,36 @@
+# SafeField AI - ambiente completo com um comando:  docker compose up --build
+# Depois acesse http://localhost:3000  (Swagger da API: http://localhost:8080/swagger-ui.html)
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: safefield
+      POSTGRES_USER: safefield
+      POSTGRES_PASSWORD: safefield
+      TZ: America/Sao_Paulo
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U safefield -d safefield"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/safefield
+      SPRING_DATASOURCE_USERNAME: safefield
+      SPRING_DATASOURCE_PASSWORD: safefield
+      SAFEFIELD_CORS_ORIGENS: http://localhost:3000
+    ports:
+      - "8080:8080"
+
+  web:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "3000:80"

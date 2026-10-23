@@ -1,0 +1,13 @@
+{
+  "name": "SafeField AI - Metaindústria",
+  "short_name": "SafeField",
+  "description": "Monitoramento proativo de EPIs e riscos operacionais.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1220",
+  "theme_color": "#0B1220",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

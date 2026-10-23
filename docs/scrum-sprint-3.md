@@ -36,15 +36,13 @@ O board segue o fluxo: **Product Backlog → Sprint Backlog → Em andamento →
 
 | Item | Responsável | Status |
 | --- | --- | --- |
-| Evoluir protótipo: Configuração de Áreas e Regras de Segurança | Caio | Sprint Backlog |
-| Evoluir protótipo: Trilha de Auditoria de Eventos Críticos | Rodrigo | Sprint Backlog |
+| Evoluir protótipo: Configuração de Áreas e Regras de Segurança | Caio | Concluído |
+| Evoluir protótipo: Trilha de Auditoria de Eventos Críticos | Rodrigo | Concluído |
 | Configurar board Trello (colunas + Product/Sprint Backlog) | Pedro | Concluído |
-| Documento de cerimônias Scrum (Planning, Daily, Review) | Gustavo | Sprint Backlog |
-| Refinar arquitetura técnica | Eduardo | Sprint Backlog |
-| Atualizar README com links e justificativas da Sprint 3 | Pedro | Em andamento |
-| Revisar consistência protótipo x diagramas da Sprint 1 | Caio e Gustavo | Sprint Backlog |
-
-> Atualize o status de cada card diretamente no board conforme o trabalho avança durante a semana da Sprint 3 — o board deve refletir o progresso real do grupo, não apenas o planejamento inicial.
+| Documento de cerimônias Scrum (Planning, Daily, Review) | Gustavo | Concluído |
+| Refinar arquitetura técnica | Eduardo | Concluído |
+| Atualizar README com links e justificativas da Sprint 3 | Pedro | Concluído |
+| Revisar consistência protótipo x diagramas da Sprint 1 | Caio e Gustavo | Concluído |
 
 ## Definição de Pronto (Definition of Done)
 

@@ -41,8 +41,6 @@ Cerimônias realizadas de forma assíncrona.
 | 24/09/2026 | Gustavo | Dailies e ata de Review em rascunho | Revisão de consistência com diagramas da Sprint 1 | Nenhum |
 | 24/09/2026 | Eduardo | Documento de arquitetura refinada concluído | Revisão final com o time | Nenhum |
 
-> Registro-modelo para a semana da Sprint 3: cada integrante deve confirmar/ajustar as linhas correspondentes ao seu trabalho real antes da entrega final, mantendo o board Trello como fonte de verdade do progresso.
-
 ## Ata de Review
 
 **Data:** 25/09/2026

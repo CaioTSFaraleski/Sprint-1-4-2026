@@ -1,0 +1,34 @@
+@startuml
+!pragma layout smetana
+title Sprint 4 - Implantação (docker compose up --build)
+skinparam componentStyle rectangle
+
+node "Navegador do usuário\n(desktop, tablet industrial, celular)" as nav {
+  component "SPA React + TypeScript\n(PWA)" as spa
+}
+
+node "Container web\nnginx:1.27" as web {
+  component "Arquivos estáticos (Vite build)" as estat
+  component "Proxy /api, /ws, /swagger-ui" as proxy
+}
+
+node "Container api\neclipse-temurin:21-jre" as api {
+  component "Spring Boot 3.3\nREST /api/v1 + JWT" as rest
+  component "WebSocket /ws/alertas" as ws
+  component "Motor de regras\n+ ciclo da ocorrência" as motor
+  component "Simulador do edge gateway\n(@Scheduled)" as sim
+  component "Actuator /prometheus" as act
+}
+
+database "Container postgres\npostgres:16" as pg
+
+node "Edge gateway externo\n(gateway/simulador_gateway.py\nou câmera real com YOLO)" as gw
+
+spa --> proxy : HTTPS / WSS
+proxy --> rest : HTTP
+proxy --> ws : WebSocket
+rest --> motor
+sim --> motor
+motor --> pg : JPA / JDBC
+gw --> rest : POST /api/v1/deteccoes\nX-Gateway-Key
+@enduml

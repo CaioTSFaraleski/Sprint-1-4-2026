@@ -83,3 +83,60 @@
 | RN04 | O encerramento de uma ocorrencia critica exige validacao do supervisor. |
 | RN05 | Relatorios devem considerar apenas ocorrencias registradas e classificadas pelo sistema. |
 | RN06 | Evidencias de deteccao devem ser associadas a ocorrencia correspondente para auditoria. |
+
+---
+
+## Rastreabilidade (Sprint 4)
+
+Como cada requisito levantado na Sprint 1 foi implementado na aplicação final. Caminhos de código relativos a
+`backend/src/main/java/br/com/safefield/` (API) e `frontend/src/` (interface).
+
+### Requisitos funcionais
+
+| Código | Status | Tela | Endpoint | Implementação | Teste |
+|---|---|---|---|---|---|
+| RF01 | Implementado | Login, Usuários, Colaboradores | `POST /auth/login`, `GET/POST /usuarios` | `domain/Usuario` (+3 perfis), `service/UsuarioService`, `security/` | `controleDeAcessoPorPerfil` |
+| RF02 | Implementado | Áreas e Regras | `GET/POST/PUT /areas` | `domain/AreaIndustrial`, `service/AreaService` | `cadastroDeAreaERegraFicaNaTrilhaDeAuditoria` |
+| RF03 | Implementado | Áreas e Regras, Cadastro de EPI | `POST /areas/{id}/regras`, `POST /epis` | `domain/RegraSeguranca`, `domain/EPI`, `service/EpiService` | `cadastroDeAreaERegraFicaNaTrilhaDeAuditoria` |
+| RF04 | Implementado | Áreas e Regras (turno, atividade, severidade) | `POST/DELETE /areas/{id}/regras` | `AreaIndustrial.obterRegrasAtivas(turno)` | `regraDeOutroTurnoNaoEhCobrada` |
+| RF05 | Implementado | Dashboard (simulador) | `POST /deteccoes` (`X-Gateway-Key`) | `service/DeteccaoService`, `service/SimuladorService`, `gateway/simulador_gateway.py` | `deteccaoSemEpi…`, `deteccaoComTodosOsEpisNaoAbreOcorrencia` |
+| RF06 | Implementado | Detalhe da Ocorrência (evidência) | `POST /deteccoes` | `service/MotorRegrasService` | `MotorRegrasServiceTest` (6 cenários) |
+| RF07 | Implementado | Alertas e Ocorrências, Detalhe | `GET /ocorrencias`, `GET /ocorrencias/{id}` | `domain/OcorrenciaRisco` (data/hora, área, operador, evidência, EPIs ausentes, severidade) | `deteccaoSemEpi…` |
+| RF08 | Implementado | Meus alertas (operador) | `/ws/alertas?operadorId=`, `GET /alertas` | `OcorrenciaService.abrir`, `realtime/AlertasWebSocketHandler` | `deteccaoSemEpi…` (2 alertas) |
+| RF09 | Implementado | Dashboard, aviso "Nova ocorrência" | `/ws/alertas`, `GET /alertas` | idem (alerta ao supervisor da área) | `deteccaoSemEpi…` |
+| RF10 | Implementado | Meus alertas, Detalhe | `POST /ocorrencias/{id}/regularizacao` | `OcorrenciaService.regularizar` | `deteccaoSemEpi…` |
+| RF11 | Implementado | Detalhe (validar, não validar, escalar, comentar) | `/validacao`, `/escalonamento`, `/comentarios` | `OcorrenciaService.validar/escalar/comentar` | `deteccaoSemEpi…` |
+| RF12 | Implementado | Detalhe (histórico de ações), Colaboradores (histórico) | `GET /ocorrencias/{id}`, `GET /colaboradores/{id}` | `domain/AcaoOcorrencia` | `deteccaoSemEpi…` |
+| RF13 | Implementado | Relatórios (CSV, impressão) | `GET /relatorios/conformidade[.csv]` | `service/RelatorioService`, `service/Indicadores` | `dashboardERelatorioRefletemOHistorico` |
+| RF14 | Implementado | Dashboard | `GET /dashboard` | `service/DashboardService` | `dashboardERelatorioRefletemOHistorico` |
+| RF15 | Implementado | Auditoria | `GET /auditoria` | `domain/EventoAuditoria` (`@Immutable`), `service/AuditoriaService` | `deteccaoSemEpi…`, `cadastroDeArea…` |
+
+Além do levantado na Sprint 1, a Sprint 4 incluiu: **fichas de entrega de EPI** por colaborador (com validade e
+bloqueio de entrega de EPI com CA vencido), **reincidência** calculada por tipo de EPI e o **simulador de
+câmeras** controlável pelo painel.
+
+### Requisitos não funcionais
+
+| Código | Status | Como foi atendido |
+|---|---|---|
+| RNF01 | Atendido no MVP | Evento WebSocket publicado logo após o commit; nos testes locais o alerta aparece no painel em menos de 1 s |
+| RNF02 | Parcial (arquitetura) | Health check em `/actuator/health`; alta disponibilidade depende da infraestrutura de produção |
+| RNF03 | Atendido | Toda transição e todo cadastro geram `EventoAuditoria` imutável |
+| RNF04 | Atendido no MVP | JWT em todas as rotas, chave do gateway, perfis; em produção, TLS no Nginx |
+| RNF05 | Atendido no MVP | A interface reconecta o WebSocket sozinha (indicador Ao vivo/Offline); falha do simulador não derruba a API |
+| RNF06 | Atendido | Transações JPA; ocorrência, ações, alertas e auditoria gravados na mesma transação |
+| RNF07 | Atendido | Interface responsiva verificada em desktop, tablet (820 px) e celular (390 px) |
+| RNF08 | Parcial | API sem estado (JWT); o WebSocket em memória limita a uma instância (ver arquitetura, seção 9) |
+| RNF09 | Previsto | O contrato `POST /deteccoes` recebe detecções já processadas no edge gateway |
+| RNF10 | Atendido | Só dados necessários à operação; evidência guardada como referência |
+
+### Regras de negócio
+
+| Código | Implementação |
+|---|---|
+| RN01 | `RegraSeguranca` pertence a uma `AreaIndustrial`; cada área tem sua lista de EPIs obrigatórios |
+| RN02 | `DeteccaoService` abre ocorrência sempre que o motor encontra uma regra obrigatória violada |
+| RN03 | `OcorrenciaService.abrir` emite os alertas ao operador e ao supervisor no mesmo instante |
+| RN04 | Só `SupervisorSeguranca` valida; o encerramento só acontece pela validação aprovada |
+| RN05 | Relatórios consideram apenas ocorrências registradas e classificadas (com severidade) |
+| RN06 | Cada `OcorrenciaRisco` referencia a `DeteccaoEPI` com a evidência (`evidenciaUrl`, dispositivo, confiança) |

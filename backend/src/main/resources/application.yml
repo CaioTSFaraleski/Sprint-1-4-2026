@@ -1,0 +1,58 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: safefield-api
+  datasource:
+    url: jdbc:h2:mem:safefield;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: America/Sao_Paulo
+  jackson:
+    time-zone: America/Sao_Paulo
+    serialization:
+      write-dates-as-timestamps: false
+
+safefield:
+  # chave HMAC usada para assinar os tokens JWT (troque em produção)
+  jwt:
+    segredo: ${SAFEFIELD_JWT_SEGREDO:troque-este-segredo-em-producao-safefield-ai-2026}
+    validade-horas: 12
+  # chave que o edge gateway envia no cabeçalho X-Gateway-Key ao publicar detecções
+  gateway:
+    api-key: ${SAFEFIELD_GATEWAY_KEY:gateway-dev-key}
+  # simulador de detecções (substitui as câmeras reais no MVP)
+  simulador:
+    ativo: ${SAFEFIELD_SIMULADOR_ATIVO:true}
+    intervalo-ms: ${SAFEFIELD_SIMULADOR_INTERVALO_MS:25000}
+    probabilidade-nao-conformidade: 0.25
+  # dados de demonstração (colaboradores, áreas, EPIs e 30 dias de histórico)
+  seed:
+    ativo: ${SAFEFIELD_SEED_ATIVO:true}
+    dias-historico: 30
+  cors:
+    origens: ${SAFEFIELD_CORS_ORIGENS:http://localhost:5173,http://localhost:3000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  level:
+    br.com.safefield: INFO

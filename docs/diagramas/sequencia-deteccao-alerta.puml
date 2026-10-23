@@ -1,0 +1,47 @@
+@startuml
+title Sprint 4 - Sequência implementada: detecção sem EPI, alerta e validação
+autonumber
+skinparam responseMessageBelowArrow true
+
+actor "Operador\n(tablet/PWA)" as Op
+participant "Edge Gateway\n(câmera/sensor ou simulador)" as GW
+participant "API Spring Boot\nDeteccaoController" as API
+participant "MotorRegrasService" as Motor
+participant "OcorrenciaService" as Oc
+database "PostgreSQL / H2" as DB
+participant "WebSocket\n/ws/alertas" as WS
+actor "Supervisor\n(painel web)" as Sup
+
+GW -> API : POST /api/v1/deteccoes\n(X-Gateway-Key, operador, área, EPIs detectados)
+API -> Motor : avaliar(área, turno, EPIs detectados)
+Motor --> API : EPIs ausentes + severidade
+alt todos os EPIs obrigatórios presentes
+  API -> DB : salva DeteccaoEPI (conforme)
+  API -> WS : DETECCAO_CONFORME
+  WS --> Sup : feed "Detecções ao vivo"
+else EPI obrigatório ausente
+  API -> DB : reincidência? (mesmo EPI em 7 dias)
+  API -> Oc : abrir(detecção, avaliação)
+  Oc -> DB : OcorrenciaRisco + AcaoOcorrencia + Alerta(operador) + Alerta(supervisor)
+  Oc -> DB : EventoAuditoria (OCORRENCIA_CRIADA, ALERTA_EMITIDO)
+  Oc -> WS : OCORRENCIA_ABERTA (após o commit)
+  WS --> Op : alerta "coloque o EPI" (vibração)
+  WS --> Sup : aviso "Nova ocorrência" + painel atualizado
+end
+API --> GW : 201 Created (DeteccaoDTO)
+
+Op -> API : POST /ocorrencias/{id}/regularizacao (JWT)
+API -> Oc : regularizar()
+Oc -> DB : status AGUARDANDO_VALIDACAO + ação + auditoria
+Oc -> WS : OCORRENCIA_ATUALIZADA
+WS --> Sup : ocorrência "Em validação"
+
+Sup -> API : POST /ocorrencias/{id}/validacao {aprovada}
+API -> Oc : validar()
+alt aprovada
+  Oc -> DB : ENCERRADA + alertas RESOLVIDOS + auditoria
+else não validada (motivo obrigatório)
+  Oc -> DB : volta para ABERTA + novo alerta ao operador + auditoria
+end
+Oc -> WS : OCORRENCIA_ATUALIZADA
+@enduml
