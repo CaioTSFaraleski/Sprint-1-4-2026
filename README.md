@@ -10,7 +10,7 @@ Challenge 2026 FIAP × SPI Integração · Sprints 1 a 4.
 | **Repositório** | https://github.com/CaioTSFaraleski/Sprint-1-4-2026 |
 | **Board Trello (Scrum)** | https://trello.com/b/LvmH9MTx/safefield-ai-metaind%C3%BAstria-sprint-3-scrum |
 | **Protótipo no Figma** | [SafeField AI · Metaindústria Dashboard](https://www.figma.com/design/d6wRQPPhz9r50kVu5zJFOe/SafeField-AI--Metaind%C3%BAstria-Dashboard?node-id=0-1&t=gfM8x4VZIW0N3Z67-1) |
-| **Vídeo de pitch e demonstração** | _(link do YouTube, não listado)_ |
+| **Vídeo de pitch e demonstração** |https://youtu.be/xU5PWW69AF4|
 
 ## Integrantes
 
